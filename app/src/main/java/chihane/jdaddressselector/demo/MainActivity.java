@@ -8,7 +8,7 @@ import android.widget.Button;
 import java.util.Collections;
 
 import chihane.jdaddressselector.BottomDialog;
-import chihane.jdaddressselector.OnAddressSelectedListener;
+import chihane.jdaddressselector.listener.OnAddressSelectedListener;
 import chihane.jdaddressselector.model.City;
 import chihane.jdaddressselector.model.County;
 import chihane.jdaddressselector.model.Province;
@@ -81,14 +81,17 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
         county.city_id = city.id;
         county.id = 3;
         county.name = "乡镇";
-//        dialog.getSelector().setCountries(Collections.singletonList(county));
-        dialog.getSelector().setCountries(null);
+        dialog.getSelector().setCountries(Collections.singletonList(county));
     }
 
     @Override
     public void onCountySelected(County county) {
-        dialog.getSelector().setStreets(null);
-    }
+        Street street = new Street();
+        street.id = 4;
+        street.county_id = county.id;
+        street.name = "街道";
 
+        dialog.getSelector().setStreets(Collections.singletonList(street));
+    }
 
 }

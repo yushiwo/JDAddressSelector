@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import chihane.jdaddressselector.listener.OnAddressSelectedListener;
 import chihane.jdaddressselector.model.City;
 import chihane.jdaddressselector.model.County;
 import chihane.jdaddressselector.model.Province;
