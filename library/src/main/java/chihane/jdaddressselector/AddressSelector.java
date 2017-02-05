@@ -24,7 +24,7 @@ import chihane.jdaddressselector.model.City;
 import chihane.jdaddressselector.model.County;
 import chihane.jdaddressselector.model.Province;
 import chihane.jdaddressselector.model.Street;
-import mlxy.utils.Lists;
+import chihane.jdaddressselector.util.ListUtils;
 
 public class AddressSelector implements AdapterView.OnItemClickListener {
     private static final int INDEX_TAB_PROVINCE = 0;
@@ -54,7 +54,7 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                 case WHAT_CITIES_PROVIDED:
                     cities = (List<City>) msg.obj;
                     cityAdapter.notifyDataSetChanged();
-                    if (Lists.notEmpty(cities)) {
+                    if (ListUtils.notEmpty(cities)) {
                         // 以次级内容更新列表
                         listView.setAdapter(cityAdapter);
                         // 更新索引为次级
@@ -69,7 +69,7 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                 case WHAT_COUNTIES_PROVIDED:
                     counties = (List<County>) msg.obj;
                     countyAdapter.notifyDataSetChanged();
-                    if (Lists.notEmpty(counties)) {
+                    if (ListUtils.notEmpty(counties)) {
                         listView.setAdapter(countyAdapter);
                         tabIndex = INDEX_TAB_COUNTY;
                     } else {
@@ -81,7 +81,7 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                 case WHAT_STREETS_PROVIDED:
                     streets = (List<Street>) msg.obj;
                     streetAdapter.notifyDataSetChanged();
-                    if (Lists.notEmpty(streets)) {
+                    if (ListUtils.notEmpty(streets)) {
                         listView.setAdapter(streetAdapter);
                         tabIndex = INDEX_TAB_STREET;
                     } else {
@@ -99,11 +99,9 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
         }
     });
 
-    private static AddressProvider DEFAULT_ADDRESS_PROVIDER;
 
     private final Context context;
     private OnAddressSelectedListener listener;
-    private AddressProvider addressProvider;
 
     private View view;
 
@@ -136,9 +134,6 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
 
     public AddressSelector(Context context) {
         this.context = context;
-
-        DEFAULT_ADDRESS_PROVIDER = new DefaultAddressProvider(context);
-        addressProvider = DEFAULT_ADDRESS_PROVIDER;
 
         initViews();
         initAdapters();
@@ -282,10 +277,10 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
     }
 
     private void updateTabsVisibility() {
-        textViewProvince.setVisibility(Lists.notEmpty(provinces) ? View.VISIBLE : View.GONE);
-        textViewCity.setVisibility(Lists.notEmpty(cities) ? View.VISIBLE : View.GONE);
-        textViewCounty.setVisibility(Lists.notEmpty(counties) ? View.VISIBLE : View.GONE);
-        textViewStreet.setVisibility(Lists.notEmpty(streets) ? View.VISIBLE : View.GONE);
+        textViewProvince.setVisibility(ListUtils.notEmpty(provinces) ? View.VISIBLE : View.GONE);
+        textViewCity.setVisibility(ListUtils.notEmpty(cities) ? View.VISIBLE : View.GONE);
+        textViewCounty.setVisibility(ListUtils.notEmpty(counties) ? View.VISIBLE : View.GONE);
+        textViewStreet.setVisibility(ListUtils.notEmpty(streets) ? View.VISIBLE : View.GONE);
 
         textViewProvince.setEnabled(tabIndex != INDEX_TAB_PROVINCE);
         textViewCity.setEnabled(tabIndex != INDEX_TAB_CITY);

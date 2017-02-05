@@ -13,7 +13,7 @@ import chihane.jdaddressselector.model.City;
 import chihane.jdaddressselector.model.County;
 import chihane.jdaddressselector.model.Province;
 import chihane.jdaddressselector.model.Street;
-import mlxy.utils.T;
+import chihane.jdaddressselector.util.ToastUtils;
 
 public class MainActivity extends AppCompatActivity implements OnAddressSelectedListener {
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
                 (county == null ? "" : "\n" + county.name) +
                 (street == null ? "" : "\n" + street.name);
 
-        T.showShort(this, s);
+        ToastUtils.showShort(this, s);
     }
 
     @Override

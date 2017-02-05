@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import java.util.Collections;
 
 import chihane.jdaddressselector.model.Province;
-import mlxy.utils.Dev;
+import chihane.jdaddressselector.util.ResUtils;
 
 public class BottomDialog extends Dialog {
 
@@ -46,7 +46,7 @@ public class BottomDialog extends Dialog {
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = Dev.dp2px(context, 256);
+        params.height = ResUtils.dp2px(context, 256);
         window.setAttributes(params);
 
         window.setGravity(Gravity.BOTTOM);
