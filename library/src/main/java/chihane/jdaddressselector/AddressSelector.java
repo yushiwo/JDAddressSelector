@@ -142,7 +142,6 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
 
         initViews();
         initAdapters();
-        retrieveProvinces();
     }
 
     private void initAdapters() {
@@ -323,7 +322,8 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                 // 更新选中效果
                 provinceAdapter.notifyDataSetChanged();
 
-                retrieveCitiesWith(province.id);
+                progressBar.setVisibility(View.VISIBLE);
+                listener.onProvinceSelected(province);
 
                 break;
 
@@ -345,7 +345,8 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
 
                 cityAdapter.notifyDataSetChanged();
 
-                retrieveCountiesWith(city.id);
+                progressBar.setVisibility(View.VISIBLE);
+                listener.onCitySelected(city);
 
                 break;
 
@@ -363,7 +364,8 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
 
                 countyAdapter.notifyDataSetChanged();
 
-                retrieveStreetsWith(county.id);
+                progressBar.setVisibility(View.VISIBLE);
+                listener.onCountySelected(county);
 
                 break;
 
@@ -400,46 +402,6 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
         ListAdapter adapter = listView.getAdapter();
         int itemCount = adapter.getCount();
         progressBar.setVisibility(itemCount > 0 ? View.GONE : View.VISIBLE);
-    }
-
-    private void retrieveProvinces() {
-        progressBar.setVisibility(View.VISIBLE);
-        addressProvider.provideProvinces(new AddressProvider.AddressReceiver<Province>() {
-            @Override
-            public void send(List<Province> data) {
-                handler.sendMessage(Message.obtain(handler, WHAT_PROVINCES_PROVIDED, data));
-            }
-        });
-    }
-
-    private void retrieveCitiesWith(int provinceId) {
-        progressBar.setVisibility(View.VISIBLE);
-        addressProvider.provideCitiesWith(provinceId, new AddressProvider.AddressReceiver<City>() {
-            @Override
-            public void send(List<City> data) {
-                handler.sendMessage(Message.obtain(handler, WHAT_CITIES_PROVIDED, data));
-            }
-        });
-    }
-
-    private void retrieveCountiesWith(int cityId) {
-        progressBar.setVisibility(View.VISIBLE);
-        addressProvider.provideCountiesWith(cityId, new AddressProvider.AddressReceiver<County>() {
-            @Override
-            public void send(List<County> data) {
-                handler.sendMessage(Message.obtain(handler, WHAT_COUNTIES_PROVIDED, data));
-            }
-        });
-    }
-
-    private void retrieveStreetsWith(int countyId) {
-        progressBar.setVisibility(View.VISIBLE);
-        addressProvider.provideStreetsWith(countyId, new AddressProvider.AddressReceiver<Street>() {
-            @Override
-            public void send(List<Street> data) {
-                handler.sendMessage(Message.obtain(handler, WHAT_STREETS_PROVIDED, data));
-            }
-        });
     }
 
     private class ProvinceAdapter extends BaseAdapter {
@@ -646,13 +608,21 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
         this.listener = listener;
     }
 
-    public void setAddressProvider(AddressProvider addressProvider) {
-        this.addressProvider = addressProvider;
-        if (addressProvider == null) {
-            this.addressProvider = DEFAULT_ADDRESS_PROVIDER;
-        }
 
-        retrieveProvinces();
+    public void setProvinces(List<Province> provinces){
+        handler.sendMessage(Message.obtain(handler, WHAT_PROVINCES_PROVIDED, provinces));
+    }
+
+    public void setCities(List<City> cities){
+        handler.sendMessage(Message.obtain(handler, WHAT_CITIES_PROVIDED, cities));
+    }
+
+    public void setCountries(List<County> countries){
+        handler.sendMessage(Message.obtain(handler, WHAT_COUNTIES_PROVIDED, countries));
+    }
+
+    public void setStreets(List<Street> streets){
+        handler.sendMessage(Message.obtain(handler, WHAT_STREETS_PROVIDED, streets));
     }
 
 }

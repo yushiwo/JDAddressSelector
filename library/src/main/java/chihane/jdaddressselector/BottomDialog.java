@@ -6,9 +6,17 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.Collections;
+
+import chihane.jdaddressselector.model.Province;
 import mlxy.utils.Dev;
 
 public class BottomDialog extends Dialog {
+
+    public AddressSelector getSelector() {
+        return selector;
+    }
+
     private AddressSelector selector;
 
     public BottomDialog(Context context) {
@@ -28,6 +36,11 @@ public class BottomDialog extends Dialog {
 
     private void init(Context context) {
         selector = new AddressSelector(context);
+        Province province = new Province();
+        province.id = 1;
+        province.name = "省份";
+        selector.setProvinces(Collections.singletonList(province));
+
         setContentView(selector.getView());
 
         Window window = getWindow();
@@ -54,4 +67,5 @@ public class BottomDialog extends Dialog {
 
         return dialog;
     }
+
 }
