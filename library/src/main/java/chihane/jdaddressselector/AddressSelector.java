@@ -60,6 +60,10 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                         listView.setAdapter(cityAdapter);
                         // 更新索引为次级
                         tabIndex = INDEX_TAB_CITY;
+
+                        // 缓存省-市数据
+                        int provinceId = cities.get(0).province_id;
+                        province2city.put(provinceId, cities);
                     } else {
                         // 次级无内容，回调
                         callbackInternal();
@@ -73,6 +77,10 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                     if (ListUtils.notEmpty(counties)) {
                         listView.setAdapter(countyAdapter);
                         tabIndex = INDEX_TAB_COUNTY;
+
+                        // 缓存市-区数据
+                        int cityId = counties.get(0).city_id;
+                        city2country.put(cityId, counties);
                     } else {
                         callbackInternal();
                     }
@@ -85,6 +93,9 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                     if (ListUtils.notEmpty(streets)) {
                         listView.setAdapter(streetAdapter);
                         tabIndex = INDEX_TAB_STREET;
+                        // 缓存市-区数据
+                        int countryId = streets.get(0).county_id;
+                        country2street.put(countryId, streets);
                     } else {
                         callbackInternal();
                     }
@@ -326,8 +337,14 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
                 // 更新选中效果
                 provinceAdapter.notifyDataSetChanged();
 
-                progressBar.setVisibility(View.VISIBLE);
-                listener.onProvinceSelected(province);
+                // 有缓存则直接使用缓存,否则去重新请求
+                if(province2city.containsKey(province.id)){
+                    setCities(province2city.get(province.id));
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    listener.onProvinceSelected(province);
+                }
+
 
                 break;
 
@@ -349,8 +366,13 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
 
                 cityAdapter.notifyDataSetChanged();
 
-                progressBar.setVisibility(View.VISIBLE);
-                listener.onCitySelected(city);
+                // 有缓存则直接使用缓存,否则去重新请求
+                if(city2country.containsKey(city.id)){
+                    setCountries(city2country.get(city.id));
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    listener.onCitySelected(city);
+                }
 
                 break;
 
@@ -368,8 +390,13 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
 
                 countyAdapter.notifyDataSetChanged();
 
-                progressBar.setVisibility(View.VISIBLE);
-                listener.onCountySelected(county);
+                // 有缓存则直接使用缓存,否则去重新请求
+                if(country2street.containsKey(county.id)){
+                    setStreets(country2street.get(county.id));
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    listener.onCountySelected(county);
+                }
 
                 break;
 

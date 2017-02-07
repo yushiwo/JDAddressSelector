@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
 
     @Override
     public void onProvinceSelected(Province province) {
+        System.out.println("onProvinceSelected");
 
         // TODO: 2017/2/5 请求城市数据
         City city1 = new City();
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
 
     @Override
     public void onCitySelected(City city) {
+        System.out.println("onCitySelected");
 
         // TODO: 2017/2/5 请求县乡数据
         switch (city.id){
@@ -133,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
 
     @Override
     public void onCountySelected(County county) {
-        // TODO: 17/2/7 实时获取街道信息 
+        System.out.println("onCountySelected");
+        // TODO: 17/2/7 实时获取街道信息
         Street street = new Street();
         street.id = 4;
         street.county_id = county.id;
