@@ -418,6 +418,9 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
         updateIndicator();
     }
 
+    /**
+     * 地址选择完成时调用的方法
+     */
     private void callbackInternal() {
         if (listener != null) {
             Province province = provinces == null || provinceIndex == INDEX_INVALID ? null : provinces.get(provinceIndex);
@@ -639,19 +642,34 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
         this.listener = listener;
     }
 
-
+    /**
+     * 设置省列表
+     * @param provinces
+     */
     public void setProvinces(List<Province> provinces){
         handler.sendMessage(Message.obtain(handler, WHAT_PROVINCES_PROVIDED, provinces));
     }
 
+    /**
+     * 设置市列表
+     * @param cities
+     */
     public void setCities(List<City> cities){
         handler.sendMessage(Message.obtain(handler, WHAT_CITIES_PROVIDED, cities));
     }
 
+    /**
+     * 设置区列表
+     * @param countries
+     */
     public void setCountries(List<County> countries){
         handler.sendMessage(Message.obtain(handler, WHAT_COUNTIES_PROVIDED, countries));
     }
 
+    /**
+     * 设置街道列表
+     * @param streets
+     */
     public void setStreets(List<Street> streets){
         handler.sendMessage(Message.obtain(handler, WHAT_STREETS_PROVIDED, streets));
     }
