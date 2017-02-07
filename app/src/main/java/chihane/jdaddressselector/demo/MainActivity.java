@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import chihane.jdaddressselector.BottomDialog;
 import chihane.jdaddressselector.listener.OnAddressSelectedListener;
@@ -66,22 +68,40 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
     public void onProvinceSelected(Province province) {
 
         // TODO: 2017/2/5 请求城市数据
-        City city = new City();
-        city.province_id = province.id;
-        city.id = 2;
-        city.name = "城市";
-        dialog.getSelector().setCities(Collections.singletonList(city));
+        City city1 = new City();
+        city1.province_id = province.id;
+        city1.id = 1;
+        city1.name = "城市1";
+
+        City city2 = new City();
+        city2.province_id = province.id;
+        city2.id = 2;
+        city2.name = "城市2";
+
+        List<City> list = new ArrayList<>();
+        list.add(city1);
+        list.add(city2);
+        dialog.getSelector().setCities(list);
     }
 
     @Override
     public void onCitySelected(City city) {
 
         // TODO: 2017/2/5 请求县乡数据
-        County county = new County();
-        county.city_id = city.id;
-        county.id = 3;
-        county.name = "乡镇";
-        dialog.getSelector().setCountries(Collections.singletonList(county));
+        County county1 = new County();
+        county1.city_id = city.id;
+        county1.id = 3;
+        county1.name = "乡镇1";
+
+        County county2 = new County();
+        county2.city_id = city.id;
+        county2.id = 4;
+        county2.name = "乡镇2";
+
+        List<County> list = new ArrayList<>();
+        list.add(county1);
+        list.add(county2);
+        dialog.getSelector().setCountries(list);
     }
 
     @Override
