@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.util.List;
 
 import chihane.jdaddressselector.listener.OnAddressSelectedListener;
@@ -126,6 +126,13 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
     private List<County> counties;
     private List<Street> streets;
 
+    /** 缓存数据:省-市 */
+    private ArrayMap<Integer, List<City>> province2city = new ArrayMap<>();
+    /** 缓存数据:市-区 */
+    private ArrayMap<Integer, List<County>> city2country = new ArrayMap<>();
+    /** 缓存数据:区-街道 */
+    private ArrayMap<Integer, List<Street>> country2street = new ArrayMap<>();
+
     private int provinceIndex = INDEX_INVALID;
     private int cityIndex = INDEX_INVALID;
     private int countyIndex = INDEX_INVALID;
@@ -168,6 +175,7 @@ public class AddressSelector implements AdapterView.OnItemClickListener {
         this.listView.setOnItemClickListener(this);
 
         updateIndicator();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     public View getView() {

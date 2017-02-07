@@ -49,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
                 dialog = new BottomDialog(MainActivity.this);
                 dialog.setOnAddressSelectedListener(MainActivity.this);
                 dialog.show();
+                // TODO: 17/2/7 实时请求省份数据
+                Province province = new Province();
+                province.id = 1;
+                province.name = "省份";
+                dialog.getSelector().setProvinces(Collections.singletonList(province));
             }
         });
     }
@@ -88,24 +93,47 @@ public class MainActivity extends AppCompatActivity implements OnAddressSelected
     public void onCitySelected(City city) {
 
         // TODO: 2017/2/5 请求县乡数据
-        County county1 = new County();
-        county1.city_id = city.id;
-        county1.id = 3;
-        county1.name = "乡镇1";
+        switch (city.id){
+            case 1:
+                County county11 = new County();
+                county11.city_id = city.id;
+                county11.id = 3;
+                county11.name = "乡镇11";
 
-        County county2 = new County();
-        county2.city_id = city.id;
-        county2.id = 4;
-        county2.name = "乡镇2";
+                County county12 = new County();
+                county12.city_id = city.id;
+                county12.id = 4;
+                county12.name = "乡镇12";
 
-        List<County> list = new ArrayList<>();
-        list.add(county1);
-        list.add(county2);
-        dialog.getSelector().setCountries(list);
+                List<County> list = new ArrayList<>();
+                list.add(county11);
+                list.add(county12);
+                dialog.getSelector().setCountries(list);
+                break;
+
+            case 2:
+                County county21 = new County();
+                county21.city_id = city.id;
+                county21.id = 3;
+                county21.name = "乡镇21";
+
+                County county22 = new County();
+                county22.city_id = city.id;
+                county22.id = 4;
+                county22.name = "乡镇22";
+
+                List<County> list2 = new ArrayList<>();
+                list2.add(county21);
+                list2.add(county22);
+                dialog.getSelector().setCountries(list2);
+                break;
+        }
+
     }
 
     @Override
     public void onCountySelected(County county) {
+        // TODO: 17/2/7 实时获取街道信息 
         Street street = new Street();
         street.id = 4;
         street.county_id = county.id;

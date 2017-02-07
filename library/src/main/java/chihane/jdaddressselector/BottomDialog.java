@@ -37,10 +37,10 @@ public class BottomDialog extends Dialog {
 
     private void init(Context context) {
         selector = new AddressSelector(context);
-        Province province = new Province();
-        province.id = 1;
-        province.name = "省份";
-        selector.setProvinces(Collections.singletonList(province));
+//        Province province = new Province();
+//        province.id = 1;
+//        province.name = "省份";
+//        selector.setProvinces(Collections.singletonList(province));
 
         setContentView(selector.getView());
 
